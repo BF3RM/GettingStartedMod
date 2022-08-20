@@ -11,10 +11,10 @@ require "__shared/Utils/Logger"
 require "__shared/Utils/RealityModTimer"
 
 ---@type Logger
---local m_Logger = Logger("SomeSharedClass", false)
+local m_Logger = Logger("SomeSharedClass", false)
 
 function SomeSharedClass:__init()
-	--m_Logger:Write("SomeSharedClass init.")
+	m_Logger:Write("SomeSharedClass init.")
 	self:RegisterVars()
 	self:RegisterEvents()
 	self:RegisterHooks()
