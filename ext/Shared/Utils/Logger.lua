@@ -1,92 +1,65 @@
 ---@class Logger
----@overload fun(p_ClassName: string, p_ActivateLogging: boolean, p_Category?: LoggerCategory[]|LoggerCategory|string):Logger
 Logger = class "Logger"
 
-local RM_DEV = RM_DEV
-
----@param p_ClassName string
----@param p_ActivateLogging boolean
----@param p_Category? LoggerCategory[]|LoggerCategory|string
-function Logger:__init(p_ClassName, p_ActivateLogging, p_Category)
+function Logger:__init(p_ClassName, p_ActivateLogging)
 	if type(p_ClassName) ~= "string" then
-		error("Logger: Wrong arguments creating object, className is not a string. ClassName: " .. tostring(p_ClassName))
+		error("Logger: Wrong arguments creating object, className is not a string. ClassName: "..tostring(p_ClassName))
 		return
 	elseif type(p_ActivateLogging) ~= "boolean" then
-		error("Logger: Wrong arguments creating object, ActivateLogging is not a boolean. ActivateLogging: " .. tostring(p_ActivateLogging))
+		error("Logger: Wrong arguments creating object, ActivateLogging is not a boolean. ActivateLogging: " ..tostring(p_ActivateLogging))
 		return
 	end
 
 	-- print("Creating object with: "..p_ClassName..", "..tostring(p_ActivateLogging))
-	self.m_Debug = p_ActivateLogging
-	self.m_ClassName = p_ClassName
-	self.m_Category = p_Category
+	self.debug = p_ActivateLogging
+	self.className = p_ClassName
 end
 
----@param p_Message boolean|integer|number|string|table
----@param p_Category LoggerCategory|string|nil
-function Logger:Write(p_Message, p_Category)
-	if not RM_DEV.LOGGER_ENABLED or self.m_ClassName == nil then
-		return
-	end
-
-	--category of this print is enabled
-	if p_Category ~= nil and RM_DEV.LOGGER_CATEGORIES_ENABLED[p_Category] then
+function Logger:Write(p_Message)
+	if SETTINGS.LOGGER_PRINT_ALL == true and self.className ~= nil then
 		goto continue
-	end
 
-	--logger not in debug, print all also disabled
-	if not self.m_Debug and not RM_DEV.LOGGER_PRINT_ALL then
-		-- logger has no category
-		if self.m_Category == nil then
-			return
-		end
-
-		--logger category can be a string or a string[]
-		if type(self.m_Category) == "string" then
-			-- make sure the category is enabled and matches the category of this print if there is one
-			if RM_DEV.LOGGER_CATEGORIES_ENABLED[self.m_Category] then
-				if p_Category == nil or p_Category == self.m_Category then
-					goto continue
-				end
-			end
-		elseif type(self.m_Category) == "table" then
-			for _, l_Category in pairs(self.m_Category) do
-				if RM_DEV.LOGGER_CATEGORIES_ENABLED[l_Category] then
-					if p_Category == nil or p_Category == l_Category then
-						goto continue
-					end
-				end
-			end
-		end
-
+	elseif self.debug == false or
+		 self.debug == nil or
+		 self.className == nil then
 		return
 	end
 
 	::continue::
-	if type(p_Message) == "table" then
-		print("[" .. self.m_ClassName .. "] Table:")
-		print(p_Message)
-	else
-		print("[" .. self.m_ClassName .. "] " .. tostring(p_Message))
-	end
+
+	print("["..self.className.."] " .. tostring(p_Message))
 end
 
----@param p_Message boolean|integer|number|string
+function Logger:WriteTable(p_Table)
+	if SETTINGS.LOGGER_PRINT_ALL == true and self.className ~= nil then
+		goto continue
+
+	elseif self.debug == false or
+		self.debug == nil or
+		self.className == nil then
+		return
+	end
+
+	::continue::
+
+	print("["..self.className.."] Table:")
+	print(p_Table)
+end
+
 function Logger:Warning(p_Message)
-	if self.m_ClassName == nil then
+	if self.className == nil then
 		return
 	end
 
-	print("[" .. self.m_ClassName .. "] WARNING: " .. tostring(p_Message))
+	print("["..self.className.."] WARNING: " .. tostring(p_Message))
 end
 
----@param p_Message boolean|integer|number|string
 function Logger:Error(p_Message)
-	if self.m_ClassName == nil then
+	if self.className == nil then
 		return
 	end
 
-	error("[" .. self.m_ClassName .. "] " .. tostring(p_Message) .. " ")
+	error("["..self.className.."] " .. tostring(p_Message))
 end
 
 return Logger
