@@ -1,4 +1,4 @@
 EVENTS = {}
 NETEVENTS = {
-    TELEPORT_TO_POSITION = "Teleport:ToPosition"
+	TELEPORT_TO_POSITION = "Teleport:ToPosition"
 }
