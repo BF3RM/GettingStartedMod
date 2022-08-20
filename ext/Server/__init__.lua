@@ -52,6 +52,7 @@ function ServerTeleporter:OnTeleportToPositionRequest(p_Player, p_TeleportPositi
     end
 
     -- get the player soldier to teleport
+    ---@type SoldierEntity|nil
     local s_Soldier = p_Player.soldier
 
     if not s_Soldier then
@@ -67,7 +68,7 @@ function ServerTeleporter:OnTeleportToPositionRequest(p_Player, p_TeleportPositi
 
     -- remove protection after set time
     m_Timer:Simple(SETTINGS.TELEPORT_PROTECTION_IN_S, function()
-        if self:_CheckIfSoldierIsProtected(p_Player.soldier) then
+        if self:_CheckIfSoldierIsProtected(s_Soldier) then
             m_Logger:Write("Soldier Protection Lifted")
         end
     end)
@@ -76,7 +77,11 @@ function ServerTeleporter:OnTeleportToPositionRequest(p_Player, p_TeleportPositi
     m_Logger:Write("Teleported Player: " .. p_Player.name .. " to Position: " .. tostring(p_TeleportPosition))
 end
 
+---@param p_Soldier Soldier|nil
 function ServerTeleporter:_CheckIfSoldierIsProtected(p_Soldier)
+    if not p_Soldier then
+        return false
+    end
     for l_Index, l_SoldierName in ipairs(self.m_IgnoreSoldierDamageForPlayer) do
         if l_SoldierName == p_Soldier.player.name then
             table.remove(self.m_IgnoreSoldierDamageForPlayer, l_Index)

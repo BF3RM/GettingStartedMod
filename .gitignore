@@ -1,4 +1,7 @@
 ext/Shared/.vu
 ext/Server/.vu
 ext/Client/.vu
+ext/Shared/.vscode
+ext/Server/.vscode
+ext/Client/.vscode
 .vu/*

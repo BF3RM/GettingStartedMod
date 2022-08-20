@@ -1,10 +1,10 @@
 {
-    "Name": "VU Mod Template",
-    "Description": "This mod template will help you get started with VU modding by providing you with type information within VSCode",
+    "Name": "GettingStartedMod",
+    "Description": "This mod will help you getting started with Reality Mod and VU",
     "Version": "0.0.1",
 	"Authors": [],
-	"URL": "https://veniceunleashed.net",
-	"Tags": "mod-template",
+	"URL": "https://wiki.bf3reality.com/en/development/getting-started",
+	"Tags": "getting-started",
     "HasVeniceEXT": true,
 	"HasWebUI": false,
     "Dependencies": {
