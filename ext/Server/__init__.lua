@@ -33,14 +33,10 @@ end
 ---@param p_Info DamageInfo
 ---@param p_GiverInfo DamageGiverInfo
 function ServerTeleporter:OnSoldierDamage(p_HookCtx, p_Soldier, p_Info, p_GiverInfo)
-	if self:_CheckIfSoldierIsProtected(p_Soldier) then
-		-- disable damage
-		p_HookCtx:Return(nil)
-	else
-		if self:_CheckIfSoldierIsProtected(p_Soldier) then
-			m_Logger:Write("Removed player from ignore damage list because he didnt teleport")
-		end
-	end
+    if self:_CheckIfSoldierIsProtected(p_Soldier) then
+        -- disable damage
+        p_HookCtx:Return(nil)
+    end
 end
 
 ---@param p_Player Player
